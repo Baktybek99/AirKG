@@ -1,0 +1,77 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AirKG</title>
+    <link rel="icon" href="~/Files/air.png">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/sidebar.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+</head>
+<body id="body-pd">
+    <header class="header" id="header">
+        <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+        <div class="header_img">
+            <img src="~/Files/air.png" style="float:right;">
+            <p>AirKG</p>
+        </div>
+    </header>
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">AirKyrgyzstan</span> </a>
+                <div class="nav_list">
+                    <a href="~/Home/Index" class="nav_link"> <i class='bx bx-grid-alt nav_icon'></i> <span class="nav_name">Домашняя страница</span> </a>
+                    <a href="#" class="nav_link"> <i class='bx bx-grid-alt nav_icon'></i> <span class="nav_name">Карта</span> </a>
+                    <a href="~/Chart/Shared" class="nav_link"> <i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span class="nav_name">Статистика</span> </a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a href="#" class="nav_link"> <i class='bx bx-folder nav_icon'></i> <span class="nav_name">Создать датчик</span> </a>
+                        <a href="#" class="nav_link"> <i class='bx bx-bookmark nav_icon'></i> <span class="nav_name">Дать значение</span> </a>
+                    }
+                    else
+                    {
+                        <a href="~/Account/Login" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Авторизоваться</span> </a>
+                    }
+                </div>
+            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div >
+                    <a href="~/Account/ChangePassword" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Поменять пароль</span> </a>
+                    <a href="~/Account/Logout" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Выйти</span> </a>
+                </div>
+            }
+        </nav>
+    </div>
+
+    <div class="height-100 bg-light">
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        @RenderBody()
+    </div>
+
+    <environment include="Development">
+        <script src="~/jquery.selection/jquery.selection.min.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    </environment>
+
+    <environment exclude="Development">
+        <script src="~/jquery.selection/jquery.selection.min.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    </environment>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

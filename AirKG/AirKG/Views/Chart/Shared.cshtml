@@ -1,0 +1,133 @@
+﻿@{
+    //Layout = "~/Views/Shared/_Layout.cshmtl";
+}
+<p>
+    <div class="row">
+        <div class="col-1">
+            <label><b>Вид графика</b></label>
+        </div>
+        <div class="mb-3">
+            <select asp-items=@ViewBag.List id="sensorId" class="form-select">
+                <option value="0">Выбрать местность</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <select id="ChartType" class="form-control">
+                <option selected>Выбрать тип графика</option>
+                <option value="bar">Bar</option>
+                <option value="line">Линия</option>
+                <option value="pie">Пирог</option>
+                <option value="doughnut">Пончик</option>
+            </select>
+        </div>
+        <div class="col-4">
+            <input type="button" id="ID" value="Показать" />
+        </div>
+    </div>
+
+</p>
+
+@*<br />
+    <div id="ChartView">
+        <canvas id="myChart"></canvas>
+    </div>*@
+
+
+ Button trigger modal
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Launch static backdrop modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+                <div id="ChartView">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function OnError(err) {
+
+            }
+
+            $("#ID").click(function () {
+                var chartType = $("#ChartType").val();
+
+                var chartView = document.getElementById('ChartView');
+
+                chartView.innerHTML = '&nbsp;';
+                var sensorId = $("#sensorId").find(":selected").val();
+                $("#ChartView").append('<canvas id="myChart" style="max-height:1500px;max-width:500px"></canvas>')
+                $.ajax({
+                    type: "GET",
+                    url: `/Chart/GetResult?sensorId=${sensorId}`,
+                    data: "",
+                    contentType: "application/json: charset=utf-8",
+                    dataType: "json",
+                    success: OnSuccesResult,
+                    error: OnError
+                })
+
+                function OnSuccesResult(data) {
+                    var _data = data;
+                    var _chartLabels = _data[0];
+                    var _chartData = _data[1];
+
+                    console.log("Середина");
+                    new Chart("myChart", {
+                        type: chartType,
+                        data: {
+                            labels: _chartLabels,
+                            datasets: [{
+                                label: 'My Dataset',
+                                data: _chartData,
+                                backgroundColor: function (context) {
+                                    var value = context.dataset.data[context.dataIndex];
+                                    if (value <= 15) {
+                                        return 'Blue';
+                                    } else if (value >= 16 && value <= 35) {
+                                        return 'Green';
+                                    } else if (value >= 36 && value <= 75) {
+                                        return 'Yellow';
+                                    } else if (value >= 76 && value <= 100) {
+                                        return 'Red';
+                                    } else {
+                                        return 'Black'
+                                    }
+                                }
+                            }]
+                        }
+                    });
+
+                    console.log("Type= " + chartType);
+                }
+
+
+            })
+
+        })
+    </script>
+}
+
