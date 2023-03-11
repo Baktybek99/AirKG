@@ -1,0 +1,103 @@
+﻿
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
+    .header-image {
+        background: url("https://movegreen.kg/wp-content/uploads/2021/01/135937723_10222079636571439_6130107778707078732_o.jpg") no-repeat;
+        background-blend-mode: multiply;
+        background-color: gray;
+        background-size: cover;
+        height: 1000px;
+    }
+
+    under-image.left {
+        background: url("https://www.akchabar.kg/media/news/37924586-5294-4655-ac2d-d0be9dbaab24.jpg.850x445_q82_crop.jpg") no-repeat;
+    }
+
+    under-image.rigth {
+        background: url("https://movegreen.kg/wp-content/uploads/2021/06/Otchet-po-kachestvu-vozduha-1-1080x675.png") no-repeat;
+    }
+
+    .page-caption {
+        padding-top: 200px;
+        padding-bottom: 150px;
+    }
+
+    .page-title {
+        font-size: 46px;
+        line-height: 1;
+        color: #fff;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .card-section {
+        position: relative;
+        bottom: 60px;
+    }
+
+    .card-block {
+    }
+
+    .section-title {
+        position: relative;
+        padding: 40px;
+        margin-bottom: 50px;
+    }
+
+    .btn {
+        border-radius: 20px;
+    }
+</style>
+<div class="header-image">
+    <div class="container">
+        <div class="row text-white">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-caption">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <h1>Добро пожаловать,<br /> Уважаемый Админ!</h1>
+                        <p>Админка на тебе Нурдин</p>
+                        <br />
+                        <a href="#" class="btn btn-lg btn-primary text-uppercase fw-bold">Создать датчик</a>
+                        <a href="#" class="btn btn-lg btn-primary text-uppercase fw-bold">Дать значение</a>
+                    }
+                    else
+                    {
+                        <div class="col-12 text-center">
+                            <h1 class="display-4 font-weight-bold">Добро пожаловать!</h1>
+                            <p class="font-italic mb-0">
+                                На этом сайте Вы сможете следить за качеством воздуха в режиме реального времени. Мы не желаем чтобы вы дышали вредным воздухм.
+                                Просьба следовать нашим рекомендациям.
+                            </p>
+                            <br />
+                            <a href="#" class="btn btn-warning text-uppercase fw-bold">Посмотреть карту Бишкека</a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="card-body">
+    <div class="container">          
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center" style="position:relative; padding:60px; margin-bottom:10px">
+                <h6 class="text-primary"> С заботой о жителях Бишкека</h6>
+                <p>От разработчиков Нурдина, Батырхана, Бактыбека</p>
+            </div>
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
