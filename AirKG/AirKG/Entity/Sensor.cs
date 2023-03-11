@@ -34,12 +34,22 @@ namespace AirKG.Entity
         /// <summary>
         /// Долгота
         /// </summary>
-        public decimal Longitude { get; set; }
+        public int Longitude { get; set; }
 
         /// <summary>
         /// Широта
         /// </summary>
-        public decimal Latitude { get; set; }
+        public int Latitude { get; set; }
+
+        /// <summary>
+        /// Координаты по высоте
+        /// </summary>
+        public decimal HeightCoordinates { get; set; }
+
+        /// <summary>
+        /// Координаты в бок
+        /// </summary>
+        public decimal СoordinatesInTheSide { get; set; }
 
         public virtual District District { get; set; }
 
