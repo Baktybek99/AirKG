@@ -36,3 +36,15 @@
 
     // Your code to run since DOM is loaded and ready
 });
+
+var markers = document.getElementsByClassName('map-marker');
+for (var i = 0; i < markers.length; i++) {
+    markers[i].addEventListener('click', function (event) {
+        event.preventDefault();
+        var x = this.getAttribute('data-x');
+        var y = this.getAttribute('data-y');
+        var url = this.getAttribute('href');
+        // Действия для открытия ссылки на улицу по координатам маркера
+    });
+}
+
