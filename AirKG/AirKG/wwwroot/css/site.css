@@ -117,3 +117,95 @@ body {
         align-items: center;
     }
 }
+
+.map-marker {
+    position: absolute;
+    display: block;
+    width: 10px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+/*.area1 {
+    fill: #000080;
+}
+
+.area2 {
+    fill: #800080;
+}
+
+.area3 {
+    fill: #008080;
+}
+
+.area4 {
+    fill: #0000CD;
+}*/
+
+.area1 {
+    fill: rgb(75, 192, 192);
+}
+
+.area2 {
+    fill: rgb(75, 192, 192);
+}
+
+.area3 {
+    fill: rgb(75, 192, 192);
+}
+
+.area4 {
+    fill: rgb(75, 192, 192);
+}
+
+.area:hover {
+    fill: rgb(75, 192, 192);
+}
+
+.area1:hover {
+    fill: rgb(75, 192, 192);
+}
+
+.area2:hover {
+    fill: rgb(75, 192, 192);
+}
+
+.area3:hover {
+    fill: rgb(75, 192, 192);
+}   
+
+.area4:hover {
+    fill: rgb(75, 192, 192);
+}
+
+.example {
+    border: 1px solid black;
+}
+
+.map-marker {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.map-marker .tooltiptext {
+    left:14px;
+    top: 6px;
+    visibility: hidden;
+    width: 80px;
+    height: 20px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 2px 0;
+    position: absolute;
+    z-index: 1;
+    font-size: 10px;
+}
+
+.map-marker:hover .tooltiptext {
+    visibility: visible;
+}
+
