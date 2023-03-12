@@ -29,5 +29,10 @@ namespace AirKG.ViewModels
         /// Качество воздуха
         /// </summary>
         public double? AirQuality { get; set; }
+
+        /// <summary>
+        /// Название местности/улицы на которой расположен датчик
+        /// </summary>
+        public string? PlaceName { get ; set; }
     }
 }
