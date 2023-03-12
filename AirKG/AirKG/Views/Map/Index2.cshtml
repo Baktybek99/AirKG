@@ -1,0 +1,121 @@
+﻿@using AirKG.ViewModels.Markers;
+@model MapModel
+
+<div style="position: relative;">
+    @foreach (var index in Model.Sensors)
+    {
+        <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-action=@index.Id class="map-marker" href="#" style="position: absolute; z-index:100; left: @HTMLstatic.GetCore(index.Latitude)px; top: @HTMLstatic.GetCore(index.Longitude)px;">
+            <span class="tooltiptext">Чистота @index.AirQuality , @index.PlaceName</span>
+        </button>
+    }
+    <div class="image-container">
+        <img src="~/Files/Untitled.png" alt="Первое изображение" class="bottom-image">
+        <svg class="b-map-svg" version="1.0" xmlns="http://www.w3.org/2000/svg"
+             width="350mm" height="350mm" viewBox="0 0 300.000000 1000.000000"
+             preserveAspectRatio="xMidYMid meet">
+            <g class="area2 example" stroke="red" stroke-width="20"
+               transform="translate(247,779) scale(0.108000,-0.108000)">
+                <path d="M1435 3640 c-38 -4 -95 -22 -153 -48 -89 -40 -97 -42 -191 -42 l-98
+                            0 -7 -162 c-3 -90 -9 -220 -12 -290 l-7 -128 -228 0 -229 0 0 -42 c-1 -24 -11
+                            -275 -24 -558 -13 -283 -23 -516 -21 -518 1 -2 27 3 56 10 49 13 56 18 73 56
+                            11 23 24 42 30 42 19 0 56 -30 56 -46 0 -17 -14 -18 171 11 l155 24 113 -39
+                            c116 -41 143 -45 274 -34 l76 7 -6 27 c-3 20 3 42 22 74 15 25 31 48 36 52 5
+                            3 59 14 120 24 62 11 114 22 117 25 3 3 -22 121 -56 263 -34 141 -63 266 -64
+                            277 -3 17 9 22 102 42 58 13 116 26 128 29 l24 5 -8 304 -7 305 59 0 c36 0
+                            196 -30 409 -75 l350 -76 458 -204 457 -203 -6 46 c-3 26 -25 211 -48 412 -42
+                            363 -42 365 -66 372 -14 4 -317 21 -675 38 -638 30 -1214 39 -1380 20z" />
+            </g>
+        </svg>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+                <div id="ChartView">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+@section scripts
+    {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function OnError(err) {
+
+            }
+
+            $('.map-marker').click(function () {
+
+                var chartView = document.getElementById('ChartView');
+
+                chartView.innerHTML = '&nbsp;';
+                var sensorId = $(this).data('action');
+                console.log(sensorId);
+                $("#ChartView").append('<canvas id="myChart" style="max-height:500px;max-width:1000px"></canvas>')
+                $.ajax({
+                    type: "GET",
+                    url: `/Chart/GetResult?sensorId=${sensorId}`,
+                    data: "",
+                    contentType: "application/json: charset=utf-8",
+                    dataType: "json",
+                    success: OnSuccesResult,
+                    error: OnError
+                })
+
+                function OnSuccesResult(data) {
+                    var _data = data;
+                    var _chartLabels = _data[0];
+                    var _chartData = _data[1];
+
+                    new Chart("myChart", {
+                        type: 'bar',
+                        data: {
+                            labels: _chartLabels,
+                            datasets: [{
+                                label: 'My Dataset',
+                                data: _chartData,
+                                backgroundColor: function (context) {
+                                    var value = context.dataset.data[context.dataIndex];
+                                    if (value <= 15) {
+                                        return 'Blue';
+                                    } else if (value >= 16 && value <= 35) {
+                                        return 'Green';
+                                    } else if (value >= 36 && value <= 75) {
+                                        return 'Yellow';
+                                    } else if (value >= 76 && value <= 100) {
+                                        return 'Red';
+                                    } else {
+                                        return 'Black'
+                                    }
+                                }
+                            }]
+                        }
+                    });
+
+                    console.log("Finish All");
+                }
+            })
+
+        })
+    </script>
+}
+

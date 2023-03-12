@@ -1,0 +1,129 @@
+﻿@using AirKG.ViewModels.Markers;
+@model MapModel
+
+<div style="position: relative;">
+        @foreach (var index in Model.Sensors)
+        {
+            <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-action=@index.Id class="map-marker" href="#" style="position: absolute; z-index:100; left: @HTMLstatic.GetCore(index.Latitude)px; top: @HTMLstatic.GetCore(index.Longitude)px;">
+            <span class="tooltiptext">Чистота @index.AirQuality , @index.PlaceName</span>
+            </button>
+        }
+        <div class="image-container">
+            <img src="~/Files/Untitled.png" alt="Первое изображение" class="bottom-image">
+            <svg class="b-map-svg" version="1.0" xmlns="http://www.w3.org/2000/svg"
+                 width="350mm" height="350mm" viewBox="0 0 300.000000 1000.000000"
+                 preserveAspectRatio="xMidYMid meet">
+
+                <a href="~/Map/Index3">
+                    <g class="area3 example" transform="translate(299,569) scale(0.09,-0.100000)" stroke="red" stroke-width="20"
+                       fill="aqua">
+                        <path d="M550 3805 c0 -32 -9 -61 -31 -101 -29 -50 -31 -60 -23 -97 5 -23 6
+                            -75 3 -116 -5 -67 -8 -77 -37 -102 -27 -24 -41 -29 -87 -29 -30 0 -56 -1 -56
+                            -2 -4 -8 -26 -924 -22 -930 2 -5 85 -8 184 -8 l179 0 -4 -22 c-3 -13 -8 -138
+                            -11 -278 -3 -140 -8 -288 -11 -329 l-7 -73 149 7 c145 7 152 8 259 51 98 40
+                            125 46 250 58 204 20 818 6 1850 -43 948 -46 945 -45 945 -30 0 6 -7 8 -16 5
+                            -8 -3 -13 -2 -10 2 5 8 -12 17 -127 63 -41 16 -56 27 -53 38 2 9 7 39 11 66 4
+                            28 18 95 31 149 13 55 23 100 21 101 -12 8 -1025 317 -1062 325 -199 42 -633
+                            143 -647 150 -10 6 -57 10 -105 10 -80 0 -226 10 -361 26 -50 5 -52 6 -46 32
+                            4 15 18 53 31 86 13 32 22 64 19 72 -3 7 -24 14 -48 16 l-43 3 -14 133 c-12
+                            110 -12 139 -1 172 7 22 11 43 7 46 -3 3 -46 16 -96 29 l-91 23 0 -125 c0
+                            -109 4 -141 35 -263 19 -76 35 -141 35 -144 0 -4 -47 -6 -104 -6 -94 0 -105 2
+                            -111 19 -6 20 -43 31 -104 31 -62 0 -65 7 -48 91 15 73 15 74 -9 128 -22 48
+                            -25 66 -23 150 l2 96 -65 116 -66 115 19 165 c10 90 19 165 19 167 0 1 -115 2
+                            -255 2 l-255 0 0 -45z" />
+                    </g>
+                </a>
+            </svg>
+        </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+                <div id="ChartView">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+@section scripts
+    {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function OnError(err) {
+
+            }
+
+            $('.map-marker').click(function () {
+
+                var chartView = document.getElementById('ChartView');
+
+                chartView.innerHTML = '&nbsp;';
+                var sensorId = $(this).data('action');
+                console.log(sensorId);
+                $("#ChartView").append('<canvas id="myChart" style="max-height:500px;max-width:1000px"></canvas>')
+                $.ajax({
+                    type: "GET",
+                    url: `/Chart/GetResult?sensorId=${sensorId}`,
+                    data: "",
+                    contentType: "application/json: charset=utf-8",
+                    dataType: "json",
+                    success: OnSuccesResult,
+                    error: OnError
+                })
+
+                function OnSuccesResult(data) {
+                    var _data = data;
+                    var _chartLabels = _data[0];
+                    var _chartData = _data[1];
+
+                    new Chart("myChart", {
+                        type: 'bar',
+                        data: {
+                            labels: _chartLabels,
+                            datasets: [{
+                                label: 'My Dataset',
+                                data: _chartData,
+                                backgroundColor: function (context) {
+                                    var value = context.dataset.data[context.dataIndex];
+                                    if (value <= 15) {
+                                        return 'Blue';
+                                    } else if (value >= 16 && value <= 35) {
+                                        return 'Green';
+                                    } else if (value >= 36 && value <= 75) {
+                                        return 'Yellow';
+                                    } else if (value >= 76 && value <= 100) {
+                                        return 'Red';
+                                    } else {
+                                        return 'Black'
+                                    }
+                                }
+                            }]
+                        }
+                    });
+
+                    console.log("Finish All");
+                }
+            })
+
+        })
+    </script>
+}
+
