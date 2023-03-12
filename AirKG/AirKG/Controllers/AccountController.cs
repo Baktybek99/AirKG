@@ -92,6 +92,7 @@ namespace Innovative_Hospital_Web.Controllers
             };
             return View(model);
         }
+
         /// <summary>
         /// пост запрос для смены пароля
         /// </summary>

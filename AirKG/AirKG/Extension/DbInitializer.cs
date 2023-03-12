@@ -9,8 +9,18 @@ using System.Linq;
 
 namespace AirKG.Extension
 {
+    /// <summary>
+    /// Иницализатор базы данных
+    /// </summary>
     public static class DbInitializer
     {
+        /// <summary>
+        /// Метод для заполения базы данными
+        /// </summary>
+        /// <param name="context">Базза данных</param>
+        /// <param name="userManager">Менеджер для работы с пользователями</param>
+        /// <param name="roleManager">Менеджер для работы с ролями</param>
+        /// <returns></returns>
         public static async Task Seed(this AirKGDbContext context, UserManager<User> userManager,
            RoleManager<IdentityRole> roleManager)
         {

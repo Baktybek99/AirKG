@@ -2,6 +2,7 @@
 using AirKG.Extension;
 using AirKG.Interface;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,14 +29,14 @@ namespace AirKG.Services.Bases
             return entity;
         }
 
-        public List<T> GetAsync<T>(Func<TEntity, bool> predicate = null)
+        public async Task<List<T>> GetAsync<T>(Func<TEntity, bool> predicate = null)
         {
             var items = Context.Set<TEntity>().AsQueryable();
             if (predicate != null)
             {
                 items = items.Where(predicate).AsQueryable();
             }
-            return _mapper.Map<List<T>>(items.ToList());
+            return _mapper.Map<List<T>>(await items.ToListAsync());
         }
 
         public virtual async Task<T> ById<T>(int id) where T : class, IEntity<int>

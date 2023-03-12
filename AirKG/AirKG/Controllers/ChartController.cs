@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace AirKG.Controllers
 {
+    /// <summary>
+    /// Контроллер для отображения диаграммы
+    /// </summary>
     public class ChartController : Controller
     {
         private readonly ChartService _chartservice;
@@ -15,6 +18,10 @@ namespace AirKG.Controllers
             _chartservice = chartService;
         }
 
+        /// <summary>
+        /// Отображение диаграммы
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Shared()
         {
@@ -22,6 +29,11 @@ namespace AirKG.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Получения данных для отображения диаграммы
+        /// </summary>
+        /// <param name="sensorId"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<List<object>> GetResult(int sensorId)
         {

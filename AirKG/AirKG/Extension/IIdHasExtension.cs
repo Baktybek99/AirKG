@@ -8,6 +8,14 @@ namespace AirKG.Extension
 {
     public static class IIdHasExtension
     {
+        /// <summary>
+        /// Получение сущности по ID
+        /// </summary>
+        /// <typeparam name="T">Entity</typeparam>
+        /// <param name="entities">Entity</param>
+        /// <param name="id">Код ентити</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public static async Task<T> ById<T>(this IQueryable<T> entities, int id) where T : class, IEntity<int>
         {
             return await entities.FirstOrDefaultAsync(x => x.Id.Equals(id))

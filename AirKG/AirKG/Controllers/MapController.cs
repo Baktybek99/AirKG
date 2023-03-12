@@ -1,120 +1,68 @@
-﻿using AirKG.Context;
-using AirKG.Entity;
-using AirKG.ViewModels;
-using AirKG.ViewModels.Markers;
-using AutoMapper.Configuration.Conventions;
+﻿using AirKG.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace AirKG.Controllers
 {
+    /// <summary>
+    /// Основной контроллер для отображения контроллера
+    /// </summary>
     public class MapController : Controller
     {
-        private readonly AirKGDbContext _context;
-        public MapController (AirKGDbContext context)
+        private readonly SensorService _sensorService;
+        public MapController(SensorService sensorService)
         {
-            _context = context;
-        }
-        
-        public ActionResult Index()
-        {
-            var model = new MapModel();
-            model.Sensors = _context.Set<Sensor>()
-                .Include(x => x.AirDatas)
-                .ToList()
-                .Select(x => new SensorVM
-                {
-                    Id = x.Id,
-                    AirQuality = x.AirDatas?.OrderByDescending(x => x.DateCreate)?.First()?.AirQuality,
-                    HeightCoordinates = x.HeightCoordinates,
-                    Latitude= x.Latitude,
-                    Longitude= x.Longitude,
-                    PlaceName= x.PlaceName
-
-                })
-                .ToList();
-            return View(model);
+            _sensorService = sensorService;
         }
 
-        public ActionResult Index1()
-        {
-            var model = new MapModel();
-            model.Sensors = _context.Set<Sensor>()
-                .Include(x => x.AirDatas)
-                .ToList()
-                .Select(x => new SensorVM
-                {
-                    Id = x.Id,
-                    AirQuality = x.AirDatas?.OrderByDescending(x => x.DateCreate)?.First()?.AirQuality,
-                    HeightCoordinates = x.HeightCoordinates,
-                    Latitude = x.Latitude,
-                    Longitude = x.Longitude,
-                    PlaceName = x.PlaceName
-
-                })
-                .ToList();
-            return View(model);
+        /// <summary>
+        /// Основная страничка для отображения 1 части
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult> Index()
+        {            
+            return View(await _sensorService.GetMapModel());
         }
 
-        public ActionResult Index2()
+        /// <summary>
+        /// Основная страничка для отображения 1 части
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult> Index1()
         {
-            var model = new MapModel();
-            model.Sensors = _context.Set<Sensor>()
-                .Include(x => x.AirDatas)
-                .ToList()
-                .Select(x => new SensorVM
-                {
-                    Id = x.Id,
-                    AirQuality = x.AirDatas?.OrderByDescending(x => x.DateCreate)?.First()?.AirQuality,
-                    HeightCoordinates = x.HeightCoordinates,
-                    Latitude = x.Latitude,
-                    Longitude = x.Longitude,
-                    PlaceName = x.PlaceName
-
-                })
-                .ToList();
-            return View(model);
+            return View(await _sensorService.GetMapModel());
         }
 
-
-        public ActionResult Index3()
+        /// <summary>
+        /// Основная страничка для отображения 2 части
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult> Index2()
         {
-            var model = new MapModel();
-            model.Sensors = _context.Set<Sensor>()
-                .Include(x => x.AirDatas)
-                .ToList()
-                .Select(x => new SensorVM
-                {
-                    Id = x.Id,
-                    AirQuality = x.AirDatas?.OrderByDescending(x => x.DateCreate)?.First()?.AirQuality,
-                    HeightCoordinates = x.HeightCoordinates,
-                    Latitude = x.Latitude,
-                    Longitude = x.Longitude,
-                    PlaceName = x.PlaceName
-
-                })
-                .ToList();
-            return View(model);
+            return View(await _sensorService.GetMapModel());
         }
-        public ActionResult Index4()
-        {
-            var model = new MapModel();
-            model.Sensors = _context.Set<Sensor>().Where(x => x.PlaceName == "Ленин")
-                .Include(x => x.AirDatas)
-                .ToList()
-                .Select(x => new SensorVM
-                {
-                    Id = x.Id,
-                    AirQuality = x.AirDatas?.OrderByDescending(x => x.DateCreate)?.First()?.AirQuality,
-                    HeightCoordinates = x.HeightCoordinates,
-                    Latitude = x.Latitude,
-                    Longitude = x.Longitude,
-                    PlaceName = x.PlaceName
 
-                })
-                .ToList();
-            return View(model);
+        /// <summary>
+        /// Основная страничка для отображения 3 части
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult> Index3()
+        {
+            return View(await _sensorService.GetMapModel());
+        }
+
+        /// <summary>
+        /// Основная страничка для отображения 4 части
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult> Index4()
+        {
+            return View(await _sensorService.GetMapModel());
         }
     }
 }
