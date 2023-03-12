@@ -1,5 +1,6 @@
 using AirKG.Context;
 using AirKG.Entity;
+using AirKG.Extension;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,7 @@ namespace AirKG
                     var userManger = serives.GetRequiredService<UserManager<User>>();
                     var rolesManager = serives.GetRequiredService<RoleManager<IdentityRole>>();
                     await Initialize.InitializeAsync(userManger, rolesManager);
+                    await context.Seed(userManger, rolesManager);
                 }
                 catch (Exception ex)
                 {
