@@ -76,20 +76,26 @@ namespace AirKG.Migrations
                     b.Property<int?>("DistrictId")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("HeightCoordinates")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<bool>("IsWork")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("Latitude")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Latitude")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("Longitude")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Longitude")
+                        .HasColumnType("int");
 
                     b.Property<string>("PlaceName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ReplacementDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<decimal>("СoordinatesInTheSide")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -303,7 +309,7 @@ namespace AirKG.Migrations
             modelBuilder.Entity("AirKG.Entity.AirData", b =>
                 {
                     b.HasOne("AirKG.Entity.Sensor", "Sensor")
-                        .WithMany()
+                        .WithMany("AirDatas")
                         .HasForeignKey("SensorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -374,6 +380,11 @@ namespace AirKG.Migrations
             modelBuilder.Entity("AirKG.Entity.District", b =>
                 {
                     b.Navigation("Sensors");
+                });
+
+            modelBuilder.Entity("AirKG.Entity.Sensor", b =>
+                {
+                    b.Navigation("AirDatas");
                 });
 #pragma warning restore 612, 618
         }
